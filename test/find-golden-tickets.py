@@ -15,6 +15,7 @@ parser.add_argument('--dss-url', dest='dss_url', action='store',
                     default='https://dss.staging.data.humancellatlas.org/v1/search?replica=aws', help='The url for the storage system.')
 parser.add_argument('--indexer-url', dest='repoCode', action='store',
                     default='https://9b92wjnlgh.execute-api.us-west-2.amazonaws.com/dev/', help='The indexer URL')
+parser.add_argument('--es-query', dest='es_query', action='store', default='{"query":{"match_all":{}}}', help='The ElasticSearch query to use')
 
 #Get the arguments into args
 args = parser.parse_args()
@@ -54,8 +55,10 @@ def main():
     '''
     Main function which will carry out the execution of the program
     '''
+    print(args.es_query)
     headers = {"accept": "application/json", "content-type": "application/json"}
-    data = json.dumps({"es_query": {"query": {"match": {"files.project_json.content.core.schema_version": "4.6.1"}}}})
+    data = '{"es_query":' + args.es_query + '}'
+    # data = json.dumps({"es_query": {"query": {"match": {"files.project_json.content.core.schema_version": "4.6.1"}}}})
     req = requestConstructor(args.dss_url, headers, data)
     response = executeRequest(req)
     response = json.loads(response)
