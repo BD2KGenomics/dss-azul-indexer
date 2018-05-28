@@ -227,6 +227,33 @@ class Indexer(object):
             else:
                 yield name, "None"
 
+    def mark_as_deleted(self, bundle_uuid, bundle_version):
+        existing = self.es_client.get(index=self.index_name,
+                                      q=["'bundle':'" + bundle_uuid + "'"],
+                                      ignore=[404])
+        # Get the elasticsearch uuid for this particular data file
+        es_uuid = "{}:{}:{}".format(bundle_uuid,
+                                    existing['_source']['bundles']['uuid'],
+                                    existing['_source']['bundles']['version'])
+
+        if '_source' in existing:
+            # Pop out the samples field
+            bundle = existing['_source'].pop('bundles')
+            # Merge all the fields:
+            # do for loop, use the collections thing to update a new dict
+            d = collections.defaultdict(list)
+            d.update(existing['_source'])
+            for key, value in bundle['_source'].items():
+                if key != 'uuid' and key != 'version' and isinstance(d[key], list):
+                    d[key] = "NULL"
+                else:
+                    d[key] = value
+            d['bundles'] = bundle
+        else:
+            d = existing
+
+        self.load_doc(doc_contents=d, doc_uuid=es_uuid)
+
 
 class FileIndexerV5(Indexer):
     """Create a file oriented index.

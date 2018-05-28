@@ -131,6 +131,28 @@ def post_notification():
     # project_indexer.index(bundle_uuid, bundle_version)
     return {"status": "done"}
 
+@app.route('/delete', methods=['DELETE'])
+def delete_notification():
+    payload = app.current_request.json_body
+    app.log.info("Received delete notification %s", payload)
+
+    bundle_uuid = payload['match']['bundle_uuid']
+    bundle_version = payload['match']['bundle_version']
+
+    extractor = DataExtractor(bb_host)
+
+    metadata_files, data_files = extractor.extract_bundle(payload, replica)
+
+    file_indexer = FileIndexerV5(metadata_files,
+                                 data_files,
+                                 es,
+                                 'file_index_v5',
+                                 es_doc_type,
+                                 index_settings=es_settings,
+                                 index_mapping_config=index_mapping_config)
+
+    file_indexer.mark_as_deleted(bundle_uuid, bundle_version)
+    return {"status", "done"}
 
 @app.route('/escheck')
 def es_check():
