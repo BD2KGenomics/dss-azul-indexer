@@ -90,10 +90,10 @@ class TestDCCTransformer(TestCase):
                 "index_field": "lastModified",
                 "value": "1822-07-20T000000.000000Z"
             },
-            # {
-            #     "index_field": "program",
-            #     "value": "TOPMed"
-            # },
+            {
+                "index_field": "program",
+                "value": "TOPMed"
+            },
             {
                 "index_field": "redwoodDonorUUID",
                 "value": ""
