@@ -197,6 +197,21 @@
       {
         "constant": "",
         "index_field": "metadataJson"
+      },
+      {
+        "source": "metadata.json",
+        "dss_field": "case.node_id",
+        "index_field": "donor_uuid"
+      },
+      {
+        "source": "metadata.json",
+        "dss_field": "sample.node_id",
+        "index_field": "specimen_uuid"
+      },
+      {
+        "source": "metadata.json",
+        "dss_field": "aliquot.node_id",
+        "index_field": "sample_uuid"
       }]
     }]
 }
