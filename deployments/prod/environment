@@ -1,0 +1,7 @@
+# Set variables for the `prod` (short for production) deployment here.
+#
+# To define an AZUL_… variable use `_set AZUL_FOO bar`. For all other variables use `export BAR=baz`.
+
+_set AZUL_DEPLOYMENT_STAGE prod
+
+_set AZUL_DSS_ENDPOINT "https://dss.data.humancellatlas.org/v1"

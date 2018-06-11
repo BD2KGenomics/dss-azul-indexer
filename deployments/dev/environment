@@ -1,0 +1,9 @@
+# Set variables for the `dev` (short for development) deployment here.
+#
+# To define an AZUL_… variable use `_set AZUL_FOO bar`. For all other variables use `export BAR=baz`.
+
+_set AZUL_DEPLOYMENT_STAGE dev
+
+# FIXME: this should probably be pointing at integration
+
+_set AZUL_DSS_ENDPOINT "https://dss.staging.data.humancellatlas.org/v1"
