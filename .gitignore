@@ -39,4 +39,6 @@ __pycache__/
 
 # Local environment configuration
 /deployments/.active
-environment.local
+/deployments/*.local
+/environment.local
+/deployments/*/environment.local

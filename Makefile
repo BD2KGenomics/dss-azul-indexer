@@ -4,7 +4,7 @@ all:
 	@echo Looking good!
 
 terraform:
-	$(MAKE) -C terraform deploy
+	$(MAKE) -C terraform
 
 deploy:
 	$(MAKE) -C lambdas

@@ -1,13 +1,15 @@
 include ../../common.mk
 
+templates = .chalice/config.json .chalice/deployed.json lambda-policy.json
+
 all: deploy
 
-deploy: .chalice/config.json .chalice/deployed.json lambda-policy.json
+deploy: $(templates)
 	rsync -a ../../utils ../../project chalicelib/
 	PYTHONPATH=$(AZUL_HOME) python manage_iam_role.py $(AZUL_INDEXER_NAME) lambda-policy.json
-	chalice deploy
+	chalice deploy --stage $(AZUL_DEPLOYMENT_STAGE)
 
-delete: .chalice/config.json .chalice/deployed.json
+delete: $(templates)
 	chalice delete
 	test -e .chalice/deployed.json && rm .chalice/deployed.json || true
 
